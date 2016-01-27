@@ -1,9 +1,9 @@
 package agents;
 
+import agents.abstracts.AbstractRegionAgent;
 import handlers.HandleMessage;
 
 import jade.core.AID;
-import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.domain.DFService;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
@@ -12,14 +12,12 @@ import jade.lang.acl.ACLMessage;
 
 import java.util.Map;
 
-public class RegionAgent extends Agent {
+public class RegionAgent extends AbstractRegionAgent {
 
     private Map<String, HandleMessage> messages;
     private Map<String, Object> params;
+    private Map<String, Object> stats;
     private Map<AID, AID> residents;
-
-    private long agentsCame = 0;
-    private long agentsGone = 0;
 
     protected void setup() {
         try {
@@ -57,20 +55,25 @@ public class RegionAgent extends Agent {
         this.params = params;
         this.residents = residents;
         this.messages = messages;
+
+        stats.put("came", 0);
+        stats.put("gone", 0);
     }
 
+    @Override
     public void enter(AID resident) {
         residents.put(resident, resident);
 
         ACLMessage message = createMessage(resident, "OK");
         send(message);
 
-        agentsCame++;
+        stats.replace("came", (Integer) stats.get("came") + 1);
     }
 
-    public void exit(AID resident) {
+    @Override
+    public void leave(AID resident) {
         residents.remove(resident);
-        agentsGone++;
+        stats.replace("gone", (Integer) stats.get("gone") + 1);
     }
 
     private ACLMessage createMessage(AID reciever, String content) {
@@ -81,15 +84,13 @@ public class RegionAgent extends Agent {
         return message;
     }
 
+    @Override
     public Map<String, Object> getParams() {
         return params;
     }
 
-    public long getAgentsCame() {
-        return agentsCame;
-    }
-
-    public long getAgentsGone() {
-        return agentsGone;
+    @Override
+    public Map<String, Object> getStats() {
+        return stats;
     }
 }

@@ -1,6 +1,6 @@
 package handlers;
 
-import agents.RegionAgent;
+import agents.abstracts.AbstractRegionAgent;
 import jade.core.Agent;
 import jade.lang.acl.ACLMessage;
 
@@ -13,7 +13,7 @@ public class EnterMessage extends HandleMessage {
 
     @Override
     public void handle(Agent agent, ACLMessage message) {
-        RegionAgent region = (RegionAgent) agent;
+        AbstractRegionAgent region = (AbstractRegionAgent) agent;
         region.enter(message.getSender());
     }
 }

@@ -1,7 +1,6 @@
 package handlers;
 
-import agents.RegionAgent;
-
+import agents.abstracts.AbstractRegionAgent;
 import jade.core.Agent;
 import jade.lang.acl.ACLMessage;
 
@@ -14,7 +13,7 @@ public class LeaveMessage extends HandleMessage {
 
     @Override
     public void handle(Agent agent, ACLMessage message) {
-        RegionAgent region = (RegionAgent) agent;
-        region.exit(message.getSender());
+        AbstractRegionAgent region = (AbstractRegionAgent) agent;
+        region.leave(message.getSender());
     }
 }
