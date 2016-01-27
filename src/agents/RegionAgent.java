@@ -10,6 +10,7 @@ import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.lang.acl.ACLMessage;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class RegionAgent extends AbstractRegionAgent {
@@ -17,7 +18,7 @@ public class RegionAgent extends AbstractRegionAgent {
     private Map<String, HandleMessage> messages;
     private Map<String, Object> params;
     private Map<String, Object> stats;
-    private Map<AID, AID> residents;
+    private Map<AID, AID> residents = new HashMap<>(0);
 
     protected void setup() {
         try {
@@ -51,9 +52,8 @@ public class RegionAgent extends AbstractRegionAgent {
         }
     }
 
-    public RegionAgent(Map<String, Object> params, Map<AID, AID> residents, Map<String, HandleMessage> messages) {
+    public RegionAgent(Map<String, Object> params, Map<String, HandleMessage> messages) {
         this.params = params;
-        this.residents = residents;
         this.messages = messages;
 
         stats.put("came", 0);
@@ -93,4 +93,10 @@ public class RegionAgent extends AbstractRegionAgent {
     public Map<String, Object> getStats() {
         return stats;
     }
+
+    @Override
+    public void setResidents(Map<AID, AID> residents) {
+        this.residents = residents;
+    }
+
 }

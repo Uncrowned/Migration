@@ -11,4 +11,6 @@ public abstract class AbstractRegionAgent extends Agent {
 
     public abstract Map<String, Object> getParams();
     public abstract Map<String, Object> getStats();
+
+    public abstract void setResidents(Map<AID, AID> residents);
 }
