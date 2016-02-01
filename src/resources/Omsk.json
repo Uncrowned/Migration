@@ -1,0 +1,19 @@
+{
+  "population": [
+    {
+      "type": "Common",
+      "size": 1000
+    }
+  ],
+
+  "params": {
+    "name": "Omsk",
+    "averageSalary": ,
+    "standardOfLiving": ,
+    "unemployment": ,
+    "consumerBasket": ,
+    "lifespan": ,
+    "mortgageRate": ,
+    "rentRate": ,
+  }
+}
