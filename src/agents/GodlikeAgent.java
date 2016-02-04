@@ -16,17 +16,19 @@ import handlers.LeaveMessage;
 import jade.core.AID;
 import jade.core.Agent;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class GodlikeAgent extends Agent {
-    private Map<String, Class> humanAgents = new HashMap<>();
+    private Map<String, Class> humanClasses = new HashMap<>();
     private Map<String, AbstractConfig> humanConfigs;
+    private List<Agent> humanAgents = new ArrayList<>();
 
-    public GodlikeAgent() {
+    public GodlikeAgent() throws Exception {
         AbstractConfigLoader loader = new HumanConfigLoader();
-        this.humanConfigs = loader.load();
+        humanConfigs = loader.load();
     }
 
     private Map<String, HandleMessage> getHandlers() {
@@ -34,32 +36,40 @@ public class GodlikeAgent extends Agent {
         map.put(EnterMessage.message, new EnterMessage());
         map.put(LeaveMessage.message, new LeaveMessage());
 
-        humanAgents.put("Common", CommonAgent.class);
+        humanClasses.put("Common", CommonAgent.class);
 
         return map;
     }
 
     private void createPeoples(List<Population> population, AID region) {
         for (Population one : population) {
-            for (long i = 0; i < one.getSize(); i++) {
-                Class clazz = humanAgents.get(one.getType());
+            for (long i = 0; i < one.size; i++) {
+                Class clazz = humanClasses.get(one.type);
 
-                clazz.getConstructor(Map.class, AID.class).newInstance()
+                try {
+                    humanAgents.add((Agent) clazz.getConstructor(Map.class, AID.class).newInstance(humanConfigs.get(one.type).getParams(), region));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
 
     protected void setup() {
         AbstractConfigLoader regionConfigLoader = new RegionConfigLoader();
-        Map<String, AbstractConfig> configs = regionConfigLoader.load();
-        Map<String, HandleMessage> handlers = getHandlers();
+        Map<String, AbstractConfig> configs = null;
+        try {
+            configs = regionConfigLoader.load();
+            Map<String, HandleMessage> handlers = getHandlers();
 
-        //change types here
-        configs.forEach(action -> {
-            AbstractRegionAgent regionAgent = new RegionAgent(config.getParams(), handlers);
-            createPeoples(((RegionConfig) config).getPopulation(), regionAgent.getAID());
-        });
+            configs.forEach((key, config) -> {
+                AbstractRegionAgent regionAgent = new RegionAgent(config.getParams(), handlers);
+                createPeoples(((RegionConfig) config).getPopulation(), regionAgent.getAID());
+            });
 
-        //invoke migration for all "peoples"
+            //invoke migration for all "peoples"
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
