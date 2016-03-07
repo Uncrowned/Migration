@@ -15,17 +15,15 @@ import java.util.Map;
 
 public class RegionAgent extends AbstractRegionAgent {
 
-    private Map<String, HandleMessage> messages;
-    private Map<String, Object> params;
     private Map<String, Object> stats;
     private Map<AID, AID> residents = new HashMap<>(0);
 
     protected void setup() {
         try {
-            System.out.println(getLocalName() + " setting up");
-
             ServiceDescription sd = new ServiceDescription();
             sd.setType("Region");
+
+            Map<String, Object> params = (Map<String, Object>) getArguments()[0];
             sd.setName((String) params.get("name"));
 
             DFAgentDescription dfd = new DFAgentDescription();
@@ -38,6 +36,7 @@ public class RegionAgent extends AbstractRegionAgent {
                     ACLMessage message = receive();
 
                     if (message != null) {
+                        Map<String, HandleMessage> messages = (Map<String, HandleMessage>) getArguments()[1];
                         if (messages.containsKey(message.getContent())) {
                             messages.get(message.getContent()).handle(this.getAgent(), message);
                         }
@@ -46,16 +45,16 @@ public class RegionAgent extends AbstractRegionAgent {
                     }
                 }
             });
+
+            System.out.println(getName() + " set up.");
         } catch (Exception e) {
             System.out.println("Saw exception in RegionAgent: " + e);
             e.printStackTrace();
         }
     }
 
-    public RegionAgent(Map<String, Object> params, Map<String, HandleMessage> messages) {
-        this.params = params;
-        this.messages = messages;
-
+    public RegionAgent() {
+        stats = new HashMap<>();
         stats.put("came", 0);
         stats.put("gone", 0);
     }
@@ -86,7 +85,7 @@ public class RegionAgent extends AbstractRegionAgent {
 
     @Override
     public Map<String, Object> getParams() {
-        return params;
+        return (Map<String, Object>) getArguments()[0];
     }
 
     @Override
