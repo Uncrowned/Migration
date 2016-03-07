@@ -2,12 +2,12 @@
   "populations": [
     {
       "type": "agents.CommonAgent",
-      "size": 1000
+      "size": 3
     }
   ],
 
   "params": {
-    "name": "Omsk",
+    "name": "Novosibirsk",
     "averageSalary": 1,
     "standardOfLiving": 1,
     "unemployment": 1,

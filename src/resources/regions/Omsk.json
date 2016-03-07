@@ -1,19 +1,19 @@
 {
-  "population": [
+  "populations": [
     {
-      "type": "Common",
-      "size": 1000
+      "type": "agents.CommonAgent",
+      "size": 3
     }
   ],
 
   "params": {
     "name": "Omsk",
-    "averageSalary": ,
-    "standardOfLiving": ,
-    "unemployment": ,
-    "consumerBasket": ,
-    "lifespan": ,
-    "mortgageRate": ,
-    "rentRate": ,
+    "averageSalary": 1,
+    "standardOfLiving": 1,
+    "unemployment": 1,
+    "consumerBasket": 1,
+    "lifespan": 1,
+    "mortgageRate": 1,
+    "rentRate": 1
   }
 }

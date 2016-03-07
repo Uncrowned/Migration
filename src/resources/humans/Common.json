@@ -1,4 +1,4 @@
 {
-  "type": "Common",
+  "type": "agents.CommonAgent",
   "age": 55
 }
