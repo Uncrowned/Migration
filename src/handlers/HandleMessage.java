@@ -3,9 +3,9 @@ package handlers;
 import jade.core.Agent;
 import jade.lang.acl.ACLMessage;
 
-public abstract class HandleMessage {
+public abstract class HandleMessage<T extends Agent> {
 
     public HandleMessage() {}
 
-    public abstract void handle(Agent agent, ACLMessage message);
+    public abstract void handle(T agent, ACLMessage message);
 }
