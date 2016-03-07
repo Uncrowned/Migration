@@ -18,7 +18,7 @@ import java.util.*;
  */
 public class HumanConfigLoader extends AbstractConfigLoader {
 
-    private static ObjectMapper mapper = new ObjectMapper();
+    private ObjectMapper mapper = new ObjectMapper();
 
     @Override
     public Map<String, AbstractConfig> load() throws IOException {

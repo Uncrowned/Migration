@@ -19,7 +19,7 @@ import java.util.*;
  */
 public class RegionConfigLoader extends AbstractConfigLoader {
 
-    private static ObjectMapper mapper = new ObjectMapper();
+    private ObjectMapper mapper = new ObjectMapper();
 
     @Override
     public Map<String, AbstractConfig> load() throws IOException {
@@ -32,7 +32,7 @@ public class RegionConfigLoader extends AbstractConfigLoader {
                     List<Population> populations = new ArrayList<>();
 
                     JsonNode node = mapper.readValue(new File(filePath.toUri()), JsonNode.class);
-                    params = mapper.readValue(node.get("params").asText(), new TypeReference<Map<String, String>>(){});
+                    params = mapper.readValue(node.get("params").toString(), new TypeReference<Map<String, Object>>(){});
 
                     Iterator it = node.get("populations").iterator();
                     while (it.hasNext()) {
