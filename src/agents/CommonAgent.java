@@ -1,5 +1,7 @@
 package agents;
 
+import handlers.EnterMessage;
+import handlers.LeaveMessage;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
@@ -10,17 +12,14 @@ import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.lang.acl.UnreadableException;
 
-import java.io.Serializable;
-
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class CommonAgent extends Agent {
 
     private Map<String, Object> params;
     private String currentRegion;
 
-    private Map<AID, Map<String, Object>> regionsParams = new HashMap<>();
+    private Map<AID, Map<String, ?>> regionsParams = new HashMap<>();
 
     public CommonAgent() {
     }
@@ -35,7 +34,7 @@ public class CommonAgent extends Agent {
 
                 if (message != null) {
                     if (message.getContent().equals("OK")) {
-                        currentRegion = message.getSender().getName();
+                        confirm(message.getSender().getName());
                     }
                     if (message.getContent().equals("Migrate")) {
                         migrate();
@@ -47,11 +46,11 @@ public class CommonAgent extends Agent {
                     block();
                 }
 
-                message = receive(MessageTemplate.MatchPerformative(ACLMessage.CONFIRM));
-                if (message != null) {
+                ACLMessage confirm = receive(MessageTemplate.MatchPerformative(ACLMessage.CONFIRM));
+                if (confirm != null) {
                     try {
-                        Serializable params = message.getContentObject();
-
+                        Map<String, ?> params = (Map<String, ?>) confirm.getContentObject();
+                        regionsParams.put(confirm.getSender(), params);
                     } catch (UnreadableException e) {
                         e.printStackTrace();
                     }
@@ -60,6 +59,12 @@ public class CommonAgent extends Agent {
         });
 
         System.out.println(getName() + " set up.");
+    }
+
+    public void confirm(String region) {
+        currentRegion = region;
+
+        System.out.println("agent " + this.getName() + " migrated to " + currentRegion);
     }
 
     public void harvest() {
@@ -85,8 +90,41 @@ public class CommonAgent extends Agent {
         }
     }
 
-    public void migrate() {
+    protected Integer calcRelevance(Map<String, ?> params) {
+        return (Integer) params.get("averageSalary") + (Integer)params.get("standardOfLiving");
+    }
 
+    protected Double calcMigration(Map<String, ?> params) {
+        return (Integer.parseInt((String) params.get("age")) * 0.1) / 100;
+    }
+
+    public void migrate() {
+        SortedMap<Integer, AID> values = new TreeMap<>();
+
+        regionsParams.forEach((key, map) -> {
+            //calc
+            Integer value = calcRelevance(map);
+            values.put(value, key);
+        });
+
+        AID topRegion = values.get(values.lastKey());
+        if (!topRegion.getName().equals(currentRegion)) {
+            Double migration = calcMigration(this.params);
+
+            ACLMessage enter = new ACLMessage(ACLMessage.REQUEST);
+            enter.setContent(EnterMessage.message);
+            enter.addReceiver(topRegion);
+
+            send(enter);
+
+            ACLMessage leave = new ACLMessage(ACLMessage.REQUEST);
+            leave.setContent(LeaveMessage.message);
+            leave.addReceiver(new AID(currentRegion, true));
+
+            send(leave);
+
+            System.out.println("agent " + this.getName() + " want migrate to " + topRegion.getName() + " from " + currentRegion);
+        }
     }
 
 }

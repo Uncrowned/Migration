@@ -67,18 +67,22 @@ public class RegionAgent extends AbstractRegionAgent {
         send(message);
 
         stats.replace("came", (Integer) stats.get("came") + 1);
+
+        System.out.println(getName() + " came " + String.valueOf(stats.get("came")));
     }
 
     @Override
     public void leave(AID resident) {
         residents.remove(resident);
         stats.replace("gone", (Integer) stats.get("gone") + 1);
+
+        System.out.println(getName() + " leave " + String.valueOf(stats.get("gone")));
     }
 
-    private ACLMessage createMessage(AID reciever, String content) {
+    private ACLMessage createMessage(AID receiver, String content) {
         ACLMessage message = new ACLMessage(ACLMessage.INFORM);
         message.setContent(content);
-        message.addReceiver(reciever);
+        message.addReceiver(receiver);
 
         return message;
     }

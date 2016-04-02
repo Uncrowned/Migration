@@ -92,6 +92,9 @@ public class GodlikeAgent extends Agent {
                         if (message.getContent().equals("start")) {
                             godsWill();
                         }
+                        if (message.getContent().equals("preparation")) {
+                            harvestInfo();
+                        }
                     } else {
                         block();
                     }
@@ -106,6 +109,16 @@ public class GodlikeAgent extends Agent {
         for (AID agent : humanAgents) {
             ACLMessage message = new ACLMessage(ACLMessage.INFORM);
             message.setContent("Migrate");
+            message.addReceiver(agent);
+
+            send(message);
+        }
+    }
+
+    private void harvestInfo() {
+        for (AID agent : humanAgents) {
+            ACLMessage message = new ACLMessage(ACLMessage.INFORM);
+            message.setContent("Harvest info");
             message.addReceiver(agent);
 
             send(message);
