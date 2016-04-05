@@ -7,17 +7,16 @@ import IO.data.RegionConfig;
 import IO.abstracts.AbstractConfigLoader;
 import IO.data.Population;
 
-import handlers.EnterMessage;
-import handlers.HandleMessage;
-import handlers.LeaveMessage;
+import handlers.*;
 
-import handlers.ParamsRequestMessage;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.wrapper.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +26,9 @@ import java.util.Map;
 public class GodlikeAgent extends Agent {
     private Map<String, AbstractConfig> humanConfigs;
     private List<AID> humanAgents = new ArrayList<>();
+    private List<AID> regionAgents = new ArrayList<>();
+
+    private final static Logger log = LogManager.getLogger(GodlikeAgent.class);
 
     public GodlikeAgent() throws Exception {
         AbstractConfigLoader loader = new HumanConfigLoader();
@@ -38,6 +40,7 @@ public class GodlikeAgent extends Agent {
         map.put(EnterMessage.message, new EnterMessage());
         map.put(LeaveMessage.message, new LeaveMessage());
         map.put(ParamsRequestMessage.message, new ParamsRequestMessage());
+        map.put(ShowStatsMessage.message, new ShowStatsMessage());
 
         return map;
     }
@@ -58,6 +61,7 @@ public class GodlikeAgent extends Agent {
                     humanAgents.add(new AID(human.getName(), AID.ISGUID));
                 } catch (Exception e) {
                     e.printStackTrace();
+                    log.error(e.getMessage());
                 }
             }
         }
@@ -78,9 +82,11 @@ public class GodlikeAgent extends Agent {
 
                     region.start();
 
+                    regionAgents.add(new AID(region.getName(), AID.ISGUID));
                     createPeoples(((RegionConfig) config).getPopulation(), region.getName());
                 } catch (ControllerException e) {
                     e.printStackTrace();
+                    log.error(e.getMessage());
                 }
             });
 
@@ -95,6 +101,9 @@ public class GodlikeAgent extends Agent {
                         if (message.getContent().equals("preparation")) {
                             harvestInfo();
                         }
+                        if (message.getContent().equals("show stats")) {
+                            showParams();
+                        }
                     } else {
                         block();
                     }
@@ -102,6 +111,17 @@ public class GodlikeAgent extends Agent {
             });
         } catch (Exception e) {
             e.printStackTrace();
+            log.error(e.getMessage());
+        }
+    }
+
+    private void showParams() {
+        for (AID region : regionAgents) {
+            ACLMessage message = new ACLMessage(ACLMessage.INFORM);
+            message.setContent(ShowStatsMessage.message);
+            message.addReceiver(region);
+
+            send(message);
         }
     }
 

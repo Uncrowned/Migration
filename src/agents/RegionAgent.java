@@ -9,6 +9,8 @@ import jade.domain.DFService;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.lang.acl.ACLMessage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +19,8 @@ public class RegionAgent extends AbstractRegionAgent {
 
     private Map<String, Object> stats;
     private Map<AID, AID> residents = new HashMap<>(0);
+
+    private final static Logger log = LogManager.getLogger(AbstractRegionAgent.class);
 
     protected void setup() {
         try {
@@ -46,9 +50,9 @@ public class RegionAgent extends AbstractRegionAgent {
                 }
             });
 
-            System.out.println(getName() + " set up.");
+            log.info(" set up.");
         } catch (Exception e) {
-            System.out.println("Saw exception in RegionAgent: " + e);
+            log.error("Saw exception in RegionAgent: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -68,7 +72,7 @@ public class RegionAgent extends AbstractRegionAgent {
 
         stats.replace("came", (Integer) stats.get("came") + 1);
 
-        System.out.println(getName() + " came " + String.valueOf(stats.get("came")));
+        log.info("came " + String.valueOf(stats.get("came")));
     }
 
     @Override
@@ -76,7 +80,7 @@ public class RegionAgent extends AbstractRegionAgent {
         residents.remove(resident);
         stats.replace("gone", (Integer) stats.get("gone") + 1);
 
-        System.out.println(getName() + " leave " + String.valueOf(stats.get("gone")));
+        log.info("leave " + String.valueOf(stats.get("gone")));
     }
 
     private ACLMessage createMessage(AID receiver, String content) {

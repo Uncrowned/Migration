@@ -11,6 +11,8 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.lang.acl.UnreadableException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 
@@ -20,6 +22,7 @@ public class CommonAgent extends Agent {
     private String currentRegion;
 
     private Map<AID, Map<String, ?>> regionsParams = new HashMap<>();
+    private final static Logger log = LogManager.getLogger(CommonAgent.class);
 
     public CommonAgent() {
     }
@@ -51,20 +54,22 @@ public class CommonAgent extends Agent {
                     try {
                         Map<String, ?> params = (Map<String, ?>) confirm.getContentObject();
                         regionsParams.put(confirm.getSender(), params);
+
+                        log.info("get params from " + confirm.getSender().getName());
                     } catch (UnreadableException e) {
-                        e.printStackTrace();
+                        log.error(e.getMessage());
                     }
                 }
             }
         });
 
-        System.out.println(getName() + " set up.");
+        log.info("set up.");
     }
 
     public void confirm(String region) {
         currentRegion = region;
 
-        System.out.println("agent " + this.getName() + " migrated to " + currentRegion);
+        log.info("migrated to " + currentRegion);
     }
 
     public void harvest() {
@@ -85,8 +90,7 @@ public class CommonAgent extends Agent {
                 send(response);
             }
         } catch(Exception e) {
-            System.out.println( "Saw exception in CommonAgent: " + e );
-            e.printStackTrace();
+            log.error("Saw exception in CommonAgent: " + e.getMessage());
         }
     }
 
@@ -123,7 +127,7 @@ public class CommonAgent extends Agent {
 
             send(leave);
 
-            System.out.println("agent " + this.getName() + " want migrate to " + topRegion.getName() + " from " + currentRegion);
+            log.info("want migrate to " + topRegion.getName() + " from " + currentRegion);
         }
     }
 

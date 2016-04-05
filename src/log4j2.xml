@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="ERROR" name="example-config">
+    <Properties>
+        <Property name="LOG_DIR">./logs</Property>
+        <Property name="ARCHIVE">${LOG_DIR}/archive</Property>
+        <Property name="PATTERN">%-5level %d [%t] %c:%M(%L): %m%n</Property>
+    </Properties>
+    <Appenders>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout pattern="${PATTERN}"/>
+        </Console>
+
+        <RollingFile name="agentWriter"
+                     fileName="${LOG_DIR}/agents.log"
+                     filePattern="${ARCHIVE}/agents.log.%d{yyyy-MM-dd-hh-mm}.gz">
+            <PatternLayout pattern="${PATTERN}"/>
+            <OnStartupTriggeringPolicy/>
+        </RollingFile>
+        <RollingFile name="regionWriter"
+                     fileName="${LOG_DIR}/regions.log"
+                     filePattern="${ARCHIVE}/regions.log.%d{yyyy-MM-dd-hh-mm}.gz">
+            <PatternLayout pattern="${PATTERN}"/>
+            <OnStartupTriggeringPolicy/>
+        </RollingFile>
+        <RollingFile name="godlikeWriter"
+                     fileName="${LOG_DIR}/godlike.log"
+                     filePattern="${ARCHIVE}/godlike.log.%d{yyyy-MM-dd-hh-mm}.gz">
+            <PatternLayout pattern="${PATTERN}"/>
+            <OnStartupTriggeringPolicy/>
+        </RollingFile>
+        <RollingFile name="errorWriter"
+                     fileName="${LOG_DIR}/errors.log"
+                     filePattern="${ARCHIVE}/errors.log.%d{yyyy-MM-dd-hh-mm}.gz">
+            <PatternLayout pattern="${PATTERN}"/>
+            <SizeBasedTriggeringPolicy size="20MB"/>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="error">
+            <AppenderRef ref="errorWriter"/>
+            <AppenderRef ref="STDOUT"/>
+        </Root>
+        <Logger name="agents.CommonAgent" level="info" additivity="false">
+            <AppenderRef ref="agentWriter"/>
+            <AppenderRef ref="STDOUT"/>
+        </Logger>
+        <Logger name="agents.GodlikeAgent" level="info" additivity="false">
+            <AppenderRef ref="godlikeWriter"/>
+            <AppenderRef ref="STDOUT"/>
+        </Logger>
+        <Logger name="agents.abstracts.AbstractRegionAgent" level="info" additivity="false">
+            <AppenderRef ref="regionWriter"/>
+            <AppenderRef ref="STDOUT"/>
+        </Logger>
+    </Loggers>
+</Configuration>
