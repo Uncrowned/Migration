@@ -25,7 +25,7 @@ public class RegionConfigLoader extends AbstractConfigLoader {
     public Map<String, AbstractConfig> load() throws IOException {
         Map<String, AbstractConfig> configs = new HashMap<>();
 
-        Files.walk(Paths.get("/home/sevenbits/projects/Migration/src/resources/regions/")).forEach(filePath -> {
+        Files.walk(Paths.get("src/resources/regions/")).forEach(filePath -> {
             if (Files.isRegularFile(filePath)) {
                 try {
                     Map<String, Object> params = new HashMap<>();
