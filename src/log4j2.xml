@@ -40,7 +40,7 @@
             <AppenderRef ref="errorWriter"/>
             <AppenderRef ref="STDOUT"/>
         </Root>
-        <Logger name="agents.CommonAgent" level="info" additivity="false">
+        <Logger name="agents.abstracts.AbstractAgent" level="info" additivity="false">
             <AppenderRef ref="agentWriter"/>
             <AppenderRef ref="STDOUT"/>
         </Logger>
