@@ -28,7 +28,7 @@ To start my program you have to download these libraries:
 
 Items 1-5 you can easily download from maven repository, just google it.
 
-### Running
+### Running (IntelliJ IDEA)
 Make a main class to execute is "jade.Boot". It is in the jade.jar file. So its should be in your classpath.
 
 Program arguments "-gui Godlike:agents.GodlikeAgent()".
@@ -36,6 +36,9 @@ Program arguments "-gui Godlike:agents.GodlikeAgent()".
 Working directory (directory to execute from) "your/path/to/project/Migration".
 
 Use classpath of "Migration/src" folder. Make shure that the classpath contains all libraries from dependencies.
+
+In "project structure" menu choose modules -> <your_module> -> Paths -> Compile output -> Use module compile output path ->
+set "Output path" to Working directory + /out.
 
 ### Workflow
 You can send messages to Godlike agent through a gui interface.  
