@@ -35,7 +35,7 @@ Working directory (directory to execute from) "your/path/to/project/Migration".
 Use classpath of "Migration/src" folder. Make sure that the classpath contains all libraries from dependencies.
 
 In "project structure" menu choose modules -> <your_module> -> Paths -> Compile output -> Use module compile output path ->
-set "Output path" to <Working directory>/out.
+set "Output path" to /working/directory/out.
 
 ### Workflow
 After system initialized, all agents are created, you can input command via CL interface.
@@ -46,4 +46,4 @@ There is only two command for now:
 ## Extension
 You can write your own human agents, just extend AbstractHumanAgent, and override two methods "calcRelevance" and "calcMigration".
 First method calculates "scores" for each region in system and creates ordered tree by score value.
-Second method calculates possibility of current agent to migrate at highest in tree region.
+Second method calculates possibility of current agent to migrate at highest in tree region.  

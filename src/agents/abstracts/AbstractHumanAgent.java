@@ -9,6 +9,8 @@ import java.util.*;
 
 public abstract class AbstractHumanAgent {
 
+    protected static Random rnd = new Random();
+
     private Map<String, Object> params;
     private AbstractRegionAgent currentRegion;
     private String name;
@@ -24,13 +26,9 @@ public abstract class AbstractHumanAgent {
         log.info(name + " set up");
     }
 
-    protected Integer calcRelevance(Map<String, ?> params) {
-        return (Integer) params.get("averageSalary") + (Integer)params.get("standardOfLiving");
-    }
+    protected abstract Integer calcRelevance(Map<String, ?> params);
 
-    protected Double calcMigration(Map<String, ?> params) {
-        return (Integer.parseInt((String) params.get("age")) * 0.1) / 100;
-    }
+    protected abstract Double calcMigration(Map<String, ?> params);
 
     public String getName() {
         return name;
@@ -40,20 +38,27 @@ public abstract class AbstractHumanAgent {
         SortedMap<Integer, String> values = new TreeMap<>();
 
         RegionManager.regions.forEach((key, region) -> {
-            //calc
             Integer value = calcRelevance(region.getParams());
             values.put(value, key);
         });
 
         String topRegion = values.get(values.lastKey());
         if (!topRegion.equals(currentRegion.getName())) {
-            Double migration = calcMigration(this.params);
+            Double p = calcMigration(this.params);
+            if (p <= rnd.nextDouble()) {
+                currentRegion.leave(name);
+                currentRegion = RegionManager.regions.get(topRegion);
+                currentRegion.enter(name, this);
 
-            currentRegion.leave(name);
-            currentRegion = RegionManager.regions.get(topRegion);
-            currentRegion.enter(name, this);
+                StringBuilder builder = new StringBuilder(name);
+                builder.append(" want migrate to ").append(currentRegion.getName()).
+                        append(" from " ).append(currentRegion.getName()).append(" ").
+                        append(String.valueOf(p));
 
-            log.info(name + " want migrate to " + currentRegion.getName() + " from " + currentRegion);
+                log.info(builder.toString());
+            } else {
+                log.info(name + "does not want to migrate " + String.valueOf(p));
+            }
         }
     }
 

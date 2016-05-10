@@ -15,11 +15,11 @@ public class CommonAgent extends AbstractHumanAgent {
 
     @Override
     protected Integer calcRelevance(Map<String, ?> params) {
-        return super.calcRelevance(params);
+        return (Integer) params.get("averageSalary") + (Integer)params.get("standardOfLiving");
     }
 
     @Override
     protected Double calcMigration(Map<String, ?> params) {
-        return super.calcMigration(params);
+        return (Integer.parseInt((String) params.get("age")) * 0.1) / 100;
     }
 }
