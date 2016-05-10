@@ -1,16 +1,35 @@
 package agents.abstracts;
 
-import jade.core.AID;
-import jade.core.Agent;
-
+import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AbstractRegionAgent extends Agent {
-    public abstract void enter(AID resident);
-    public abstract void leave(AID resident);
+public abstract class AbstractRegionAgent {
+    protected Map<String, Object> params;
+    protected Map<String, Object> stats;
+    protected String name;
+    protected Map<String, AbstractHumanAgent> residents = new HashMap<>(0);
 
-    public abstract Map<String, Object> getParams();
-    public abstract Map<String, Object> getStats();
+    public AbstractRegionAgent(Map<String, Object> parameters, String name) {
+        this.params = parameters;
+        this.name = name;
+    }
 
-    public abstract void setResidents(Map<AID, AID> residents);
+    public abstract void enter(String resident, AbstractHumanAgent agent);
+    public abstract void leave(String resident);
+
+    public Map<String, Object> getParams() {
+        return params;
+    }
+
+    public Map<String, Object> getStats() {
+        return stats;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setResidents(Map<String, AbstractHumanAgent> residents) {
+        this.residents = residents;
+    }
 }

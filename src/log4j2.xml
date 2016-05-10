@@ -40,11 +40,11 @@
             <AppenderRef ref="errorWriter"/>
             <AppenderRef ref="STDOUT"/>
         </Root>
-        <Logger name="agents.abstracts.AbstractAgent" level="info" additivity="false">
+        <Logger name="agents.abstracts.AbstractHumanAgent" level="info" additivity="false">
             <AppenderRef ref="agentWriter"/>
             <AppenderRef ref="STDOUT"/>
         </Logger>
-        <Logger name="agents.GodlikeAgent" level="info" additivity="false">
+        <Logger name="Main" level="info" additivity="false">
             <AppenderRef ref="godlikeWriter"/>
             <AppenderRef ref="STDOUT"/>
         </Logger>
