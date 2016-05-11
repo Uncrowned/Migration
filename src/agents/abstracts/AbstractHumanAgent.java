@@ -26,7 +26,7 @@ public abstract class AbstractHumanAgent {
         log.info(name + " set up");
     }
 
-    protected abstract Integer calcRelevance(Map<String, ?> params);
+    protected abstract Double calcRelevance(Map<String, ?> params);
 
     protected abstract Double calcMigration(Map<String, ?> params);
 
@@ -35,10 +35,10 @@ public abstract class AbstractHumanAgent {
     }
 
     public void migrate() {
-        SortedMap<Integer, String> values = new TreeMap<>();
+        SortedMap<Double, String> values = new TreeMap<>();
 
         RegionManager.regions.forEach((key, region) -> {
-            Integer value = calcRelevance(region.getParams());
+            Double value = calcRelevance(region.getParams());
             values.put(value, key);
         });
 
