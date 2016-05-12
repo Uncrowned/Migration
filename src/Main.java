@@ -4,7 +4,6 @@ import IO.abstracts.AbstractConfig;
 import IO.abstracts.AbstractConfigLoader;
 import IO.data.Population;
 import IO.data.RegionConfig;
-import agents.PeopleManager;
 import agents.RegionAgent;
 import agents.RegionManager;
 import agents.abstracts.AbstractHumanAgent;
@@ -22,38 +21,41 @@ import java.util.Scanner;
  */
 public class Main {
     private final static Logger log = LogManager.getLogger(Main.class);
+    private final static Map<String, AbstractHumanAgent> humanObjects = new HashMap<>();
 
-    private static void createPeoples(List<Population> population, AbstractRegionAgent region) throws Exception {
+    private static void createPeoples(List<Population> population) throws Exception {
         AbstractConfigLoader loader = new HumanConfigLoader();
         Map<String, AbstractConfig> humanConfigs = loader.load();
-        Map<String, AbstractHumanAgent> residents = new HashMap<>();
 
         for (Population one : population) {
-            Class clazz = Class.forName(humanConfigs.get(one.type).getParams().get("type").toString());
-            for (long i = 0; i < one.size; i++) {
-                AbstractHumanAgent human = (AbstractHumanAgent) clazz.getConstructor(AbstractRegionAgent.class, Map.class)
-                        .newInstance(region, humanConfigs.get(one.type).getParams());
+            if (!humanObjects.containsKey(one.type)) {
+                Class clazz = Class.forName(humanConfigs.get(one.type).getParams().get("type").toString());
+                AbstractHumanAgent human = (AbstractHumanAgent) clazz.getConstructor(Map.class)
+                        .newInstance(humanConfigs.get(one.type).getParams());
 
-                residents.put(human.getName(), human);
-                PeopleManager.people.put(human.getName(), human);
+                humanObjects.put(one.type, human);
             }
         }
-
-        region.setResidents(residents);
     }
 
     public static void main(String[] args) {
-        AbstractConfigLoader regionConfigLoader = new RegionConfigLoader();
-        Map<String, AbstractConfig> configs = null;
         try {
-            configs = regionConfigLoader.load();
+            AbstractConfigLoader regionConfigLoader = new RegionConfigLoader();
+            Map<String, AbstractConfig> configs = regionConfigLoader.load();
             configs.forEach((key, config) -> {
                 try {
-                    AbstractRegionAgent region = RegionAgent.class.getConstructor(Map.class, String.class).newInstance(config.getParams(),
-                            config.getParams().get("name").toString());
+                    AbstractRegionAgent region = RegionAgent.class.getConstructor(Map.class, String.class, List.class).newInstance(config.getParams(),
+                            config.getParams().get("name").toString(), ((RegionConfig) config).getPopulation());
                     RegionManager.regions.put(region.getName(), region);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    log.error(e.getMessage());
+                }
+            });
 
-                    createPeoples(((RegionConfig) config).getPopulation(), region);
+            configs.forEach((key, config) -> {
+                try {
+                    createPeoples(((RegionConfig) config).getPopulation());
                 } catch (Exception e) {
                     e.printStackTrace();
                     log.error(e.getMessage());
@@ -66,9 +68,17 @@ public class Main {
                 command = scanner.next();
 
                 if (command.equals("migrate")) {
-                    PeopleManager.people.forEach((name, agent) -> {
-                        agent.migrate();
+                    log.info("Migration started!");
+
+                    RegionManager.regions.forEach((name, region) -> {
+                        region.getResidents().forEach(p -> {
+                            for (long i = 0; i < p.size; i++) {
+                                humanObjects.get(p.type).migrate(region);
+                            }
+                        });
                     });
+
+                    log.info("Migration finished!");
                 }
 
                 if (command.equals("stats")) {

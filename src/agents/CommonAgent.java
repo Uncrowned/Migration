@@ -9,13 +9,13 @@ import java.util.Map;
  * Created by sevenbits on 09.04.16.
  */
 public class CommonAgent extends AbstractHumanAgent {
-    public CommonAgent(AbstractRegionAgent region, Map<String, Object> parameters) {
-        super(region, parameters);
+    public CommonAgent(Map<String, Object> parameters) {
+        super(parameters);
     }
 
     @Override
-    protected Integer calcRelevance(Map<String, ?> params) {
-        return (Integer) params.get("averageSalary") + (Integer)params.get("standardOfLiving");
+    protected Double calcRelevance(Map<String, ?> params) {
+        return (double)((Integer) params.get("averageSalary") + (Integer)params.get("standardOfLiving"));
     }
 
     @Override
