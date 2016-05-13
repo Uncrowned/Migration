@@ -1,0 +1,18 @@
+{
+  "populations": [
+    {
+      "type": "agents.people.FarEastAgent",
+      "size": 6226640
+    }
+  ],
+
+  "params": {
+    "name": "FarEast",
+    "averageSalary": 40651,
+    "pension": 12890,
+    "unemployment": 6.4,
+    "consumerBasket": 110.7,
+    "lifespan": 68.21,
+    "density": 1
+  }
+}

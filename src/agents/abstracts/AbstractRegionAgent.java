@@ -40,4 +40,8 @@ public abstract class AbstractRegionAgent {
     public List<Population> getResidents() {
         return residents;
     }
+
+    public void resetStats() {
+        stats.replace("now", stats.get("start"));
+    }
 }

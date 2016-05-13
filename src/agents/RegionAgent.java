@@ -31,4 +31,11 @@ public class RegionAgent extends AbstractRegionAgent {
         stats.replace("gone", (Integer) stats.get("gone") + 1);
         stats.replace("now", (Integer) stats.get("now") - 1);
     }
+
+    @Override
+    public void resetStats() {
+        super.resetStats();
+        stats.replace("came", 0);
+        stats.replace("gone", 0);
+    }
 }

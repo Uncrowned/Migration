@@ -1,4 +1,5 @@
 {
-  "type": "agents.CommonAgent",
-  "age": 55
+  "type": "agents.people.CommonAgent",
+  "age": 55,
+  "value": 2.32
 }

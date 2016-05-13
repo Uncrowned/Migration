@@ -1,0 +1,18 @@
+{
+  "populations": [
+    {
+      "type": "agents.people.NorthWestAgent",
+      "size": 13800658
+    }
+  ],
+
+  "params": {
+    "name": "NorthWest",
+    "averageSalary": 35462,
+    "pension": 12311,
+    "unemployment": 4.1,
+    "consumerBasket": 112.5,
+    "lifespan": 71.42,
+    "density": 8.21
+  }
+}

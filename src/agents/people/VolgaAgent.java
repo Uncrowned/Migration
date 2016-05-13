@@ -1,15 +1,14 @@
-package agents;
+package agents.people;
 
 import agents.abstracts.AbstractHumanAgent;
-import agents.abstracts.AbstractRegionAgent;
 
 import java.util.Map;
 
 /**
- * Created by sevenbits on 09.04.16.
+ * Created by sevenbits on 13.05.16.
  */
-public class CommonAgent extends AbstractHumanAgent {
-    public CommonAgent(Map<String, Object> parameters) {
+public class VolgaAgent extends AbstractHumanAgent {
+    public VolgaAgent(Map<String, Object> parameters) {
         super(parameters);
     }
 
@@ -20,6 +19,6 @@ public class CommonAgent extends AbstractHumanAgent {
 
     @Override
     protected Double calcMigration(Map<String, ?> params) {
-        return (Integer.parseInt((String) params.get("age")) * 0.1) / 100;
+        return Double.valueOf(params.get("value").toString());
     }
 }

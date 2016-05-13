@@ -86,6 +86,11 @@ public class Main {
                         log.info(region.getName() + " " + region.getStats().toString());
                     });
                 }
+
+                if (command.equals("reset")) {
+                    RegionManager.regions.forEach((name, region) -> region.resetStats());
+                    log.info("Statistic was reset.");
+                }
             }
         } catch (Exception e) {
             log.error(e.getMessage());

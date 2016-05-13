@@ -38,23 +38,23 @@ public abstract class AbstractHumanAgent {
 
     public void migrate(AbstractRegionAgent currentRegion) {
         String topRegion = regionRating.floorEntry(ratingSum * rnd.nextDouble()).getValue();
-        if (!topRegion.equals(currentRegion.getName())) {
+        //if (!topRegion.equals(currentRegion.getName())) {
             Double p = calcMigration(this.params);
             Double next = rnd.nextDouble();
             if (p >= next) {
                 RegionManager.regions.get(topRegion).enter();
                 currentRegion.leave();
 
-                StringBuilder builder = new StringBuilder();
+                /*StringBuilder builder = new StringBuilder();
                 builder.append(topRegion).append(" to ").append(currentRegion.getName()).append(" ").
                         append(String.valueOf(p)).append(" ").append(next);
 
-                log.info(builder.toString());
+                log.info(builder.toString());*/
 
-                return;
+                //return;
             }
-        }
+        //}
 
-        log.info("does not want to migrate from " + currentRegion.getName());
+        //log.info("does not want to migrate from " + currentRegion.getName());
     }
 }
