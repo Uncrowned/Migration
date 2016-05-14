@@ -1,18 +1,18 @@
 {
   "populations": [
     {
-      "type": "agents.people.CentreAgent",
+      "type": "Centre.json",
       "size": 38819874
     }
   ],
 
   "params": {
     "name": "Centre",
-    "averageSalary": 40090,
-    "pension": 10983,
+    "averageSalary": 40.090,
+    "pension": 10.983,
     "unemployment": 3.1,
     "consumerBasket": 112.0,
     "lifespan": 72.1,
-    "density": 60.14
+    "populace": 38.819
   }
 }

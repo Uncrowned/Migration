@@ -32,7 +32,7 @@ public class HumanConfigLoader extends AbstractConfigLoader {
                     params = mapper.readValue(new File(filePath.toUri()), new TypeReference<Map<String, String>>(){});
 
                     HumanConfig config = new HumanConfig(params);
-                    configs.put(params.get("type").toString(), config);
+                    configs.put(filePath.getFileName().toString(), config);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

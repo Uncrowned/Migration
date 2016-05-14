@@ -1,18 +1,18 @@
 {
   "populations": [
     {
-      "type": "agents.people.SouthAgent",
+      "type": "South.json",
       "size": 13963874
     }
   ],
 
   "params": {
     "name": "South",
-    "averageSalary": 24518,
-    "pension": 9988,
+    "averageSalary": 24.518,
+    "pension": 9.988,
     "unemployment": 6.2,
     "consumerBasket": 111.9,
     "lifespan": 71.74,
-    "density": 33.37
+    "populace": 13.963
   }
 }

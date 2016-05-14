@@ -1,4 +1,4 @@
 {
-  "type": "agents.people.CentreAgent",
+  "type": "agents.people.CommonAgent",
   "value": 0.023667226
 }

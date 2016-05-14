@@ -10,7 +10,8 @@ import java.util.*;
 public abstract class AbstractHumanAgent {
 
     protected static Random rnd = new Random();
-    protected NavigableMap<Double, String> regionRating = new TreeMap<>();
+    protected NavigableMap<Double, String> regionRatingMap = new TreeMap<>();
+    protected Map<String, Double> regionRating = new HashMap<>();
     protected Double ratingSum = 0.0;
 
     private Map<String, Object> params;
@@ -25,7 +26,8 @@ public abstract class AbstractHumanAgent {
             AbstractRegionAgent region = it.next().getValue();
             Double value = calcRelevance(region.getParams());
 
-            regionRating.put(ratingSum, region.getName());
+            regionRatingMap.put(ratingSum, region.getName());
+            regionRating.put(region.getName(), value);
             ratingSum += value;
         }
 
@@ -37,7 +39,7 @@ public abstract class AbstractHumanAgent {
     protected abstract Double calcMigration(Map<String, ?> params);
 
     public void migrate(AbstractRegionAgent currentRegion) {
-        String topRegion = regionRating.floorEntry(ratingSum * rnd.nextDouble()).getValue();
+        String topRegion = regionRatingMap.floorEntry(ratingSum * rnd.nextDouble()).getValue();
         //if (!topRegion.equals(currentRegion.getName())) {
             Double p = calcMigration(this.params);
             Double next = rnd.nextDouble();
@@ -56,5 +58,11 @@ public abstract class AbstractHumanAgent {
         //}
 
         //log.info("does not want to migrate from " + currentRegion.getName());
+    }
+
+    public void showRating() {
+        this.regionRating.forEach((name, rating) -> {
+            log.info(name + " - " + String.valueOf(rating/ratingSum));
+        });
     }
 }

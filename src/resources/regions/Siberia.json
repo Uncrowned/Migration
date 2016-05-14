@@ -1,18 +1,18 @@
 {
   "populations": [
     {
-      "type": "agents.people.SiberiaAgent",
+      "type": "Siberia.json",
       "size": 19292740
     }
   ],
 
   "params": {
     "name": "Siberia",
-    "averageSalary": 28375,
-    "pension": 10833,
+    "averageSalary": 28.375,
+    "pension": 10.833,
     "unemployment": 7.0,
     "consumerBasket": 110.8,
     "lifespan": 68.85,
-    "density": 3.76
+    "populace": 19.292
   }
 }

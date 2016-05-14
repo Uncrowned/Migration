@@ -1,18 +1,18 @@
 {
   "populations": [
     {
-      "type": "agents.people.NorthCaucasusAgent",
+      "type": "NorthCaucasus.json",
       "size": 9590085
     }
   ],
 
   "params": {
     "name": "NorthCaucasus",
-    "averageSalary": 21200,
-    "pension": 9302,
+    "averageSalary": 21.200,
+    "pension": 9.302,
     "unemployment": 11.2,
     "consumerBasket": 109.6,
     "lifespan": 74.11,
-    "density": 57.02
+    "populace": 9.59
   }
 }

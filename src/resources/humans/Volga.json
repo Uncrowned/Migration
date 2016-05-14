@@ -1,4 +1,4 @@
 {
-  "type": "agents.people.VolgaAgent",
+  "type": "agents.people.CommonAgent",
   "value": 0.029240432
 }
