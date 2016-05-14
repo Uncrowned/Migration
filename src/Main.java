@@ -91,6 +91,13 @@ public class Main {
                     RegionManager.regions.forEach((name, region) -> region.resetStats());
                     log.info("Statistic was reset.");
                 }
+
+                if (command.equals("rating")) {
+                    humanObjects.forEach((name, human) -> {
+                        log.info(name);
+                        human.showRating();
+                    });
+                }
             }
         } catch (Exception e) {
             log.error(e.getMessage());
