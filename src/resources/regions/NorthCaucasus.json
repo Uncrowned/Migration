@@ -1,0 +1,18 @@
+{
+  "populations": [
+    {
+      "type": "NorthCaucasus.json",
+      "size": 9590085
+    }
+  ],
+
+  "params": {
+    "name": "NorthCaucasus",
+    "averageSalary": 21.200,
+    "pension": 9.302,
+    "unemployment": 11.2,
+    "consumerBasket": 109.6,
+    "lifespan": 74.11,
+    "populace": 9.59
+  }
+}

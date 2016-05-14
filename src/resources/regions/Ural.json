@@ -1,0 +1,18 @@
+{
+  "populations": [
+    {
+      "type": "Ural.json",
+      "size": 12234224
+    }
+  ],
+
+  "params": {
+    "name": "Ural",
+    "averageSalary": 37.409,
+    "pension": 11.762,
+    "unemployment": 5.8,
+    "consumerBasket": 109.9,
+    "lifespan": 70.2,
+    "populace": 12.234
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "populations": [
+    {
+      "type": "Volga.json",
+      "size": 29738836
+    }
+  ],
+
+  "params": {
+    "name": "Volga",
+    "averageSalary": 24.645,
+    "pension": 10.325,
+    "unemployment": 4.5,
+    "consumerBasket": 110.9,
+    "lifespan": 70.2,
+    "populace": 29.738
+  }
+}
